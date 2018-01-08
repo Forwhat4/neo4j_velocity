@@ -7,6 +7,7 @@ import org.neo4j.ogm.annotation.Property;
 import org.neo4j.ogm.annotation.Relationship;
 
 import java.util.List;
+import java.util.Objects;
 
 @NodeEntity
 public class People {
@@ -74,5 +75,19 @@ public class People {
 
     public void setFriends(List<People> friends) {
         this.friends = friends;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        People people = (People) o;
+        return Objects.equals(id, people.id);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
     }
 }

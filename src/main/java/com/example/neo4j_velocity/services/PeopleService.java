@@ -8,8 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class PeopleService {
@@ -47,17 +46,35 @@ public class PeopleService {
     public void findFriendsByName(String name) {
         List<People> result = peopleRepository.findFriendsByName(name);
 
-    }
+        Set<People> nodes = new HashSet<>();
+        Set<Link> links = new HashSet<>();
 
-    public void getRelationship(List<People> data,List<Link> links , List<People> nodes){
-        for(People start : data){
+        for(People start : result){
             nodes.add(start);
-            if(start.getFriends() != null && start.getFriends().size() > 0){
+            if(start.getFriends() != null){
                 for (People end : start.getFriends()){
-                    Link link = new Link();
+                    nodes.add(end);
 
+                    Link link = new Link();
+                    link.setStartNode(start.getName());
+                    link.setEndNode(end.getName());
+                    links.add(link);
                 }
             }
+        }
+        System.out.println(nodes.size()+" : "+links.size());
+    }
+
+    public void getNodesAndLinks(People center,People start,Set<Link> links , Set<People> nodes){
+        for(People end : start.getFriends()){
+           Link link = new Link();
+           link.setStartNode(start.getName());
+           link.setEndNode(end.getName());
+           links.add(link);
+           if(!center.equals(end)){
+               nodes.add(end);
+               getNodesAndLinks(center,end,links,nodes);
+           }
         }
 
     }
