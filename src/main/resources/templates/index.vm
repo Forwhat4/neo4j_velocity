@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>ECharts Demo</title>
+    </head>
+    <body>
+        <div>
+            <input type="text" id="name" placeholder="姓名">
+            <button id="btn">查询</button>
+        </div>
+        <div id="graph" style="width: 850px; height: 500px"></div>
+
+        <script type="text/javascript" src="${rc.contextPath}\libs\jquery-3.2.1.js"></script>
+        <script type="text/javascript" src="${rc.contextPath}\libs\echarts.min.js"></script>
+        <script type="text/javascript" src="${rc.contextPath}\js\index.js"></script>
+    </body>
+</html>
