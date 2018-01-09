@@ -65,17 +65,5 @@ public class PeopleService {
         System.out.println(nodes.size()+" : "+links.size());
     }
 
-    public void getNodesAndLinks(People center,People start,Set<Link> links , Set<People> nodes){
-        for(People end : start.getFriends()){
-           Link link = new Link();
-           link.setStartNode(start.getName());
-           link.setEndNode(end.getName());
-           links.add(link);
-           if(!center.equals(end)){
-               nodes.add(end);
-               getNodesAndLinks(center,end,links,nodes);
-           }
-        }
 
-    }
 }
