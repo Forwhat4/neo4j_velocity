@@ -8,6 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class PeopleController {
@@ -22,11 +26,9 @@ public class PeopleController {
 
 
     @RequestMapping(value = "/rel",method = RequestMethod.POST)
-    public String getRelationship(Model model, @RequestParam("name") String name){
+    public @ResponseBody Map<String ,Object> getRelationship(@RequestParam("name") String name){
         System.out.println("name : "+name);
-
-        model.addAttribute("resultData","结果");
-        return "";
+        return peopleService.findFriendsByName(name);
     }
 
 

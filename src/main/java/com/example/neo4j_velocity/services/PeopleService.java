@@ -2,6 +2,7 @@ package com.example.neo4j_velocity.services;
 
 import com.example.neo4j_velocity.domain.Link;
 import com.example.neo4j_velocity.domain.People;
+import com.example.neo4j_velocity.domain.PpNode;
 import com.example.neo4j_velocity.repositories.PeopleRepository;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,26 +44,43 @@ public class PeopleService {
     }
 
     @Transactional(readOnly = true)
-    public void findFriendsByName(String name) {
+    public Map<String , Object> findFriendsByName(String name) {
         List<People> result = peopleRepository.findFriendsByName(name);
 
-        Set<People> nodes = new HashSet<>();
+        Map<String , Object> resultData = new HashMap<>();
+        Set<PpNode> nodes = new HashSet<>();
         Set<Link> links = new HashSet<>();
 
         for(People start : result){
-            nodes.add(start);
+            PpNode node = new PpNode();
+            if (name.equals(start.getName())){
+                node.setCategory(1);
+                node.setSymbolSize(80);
+            }else{
+                node.setCategory(0);
+                node.setSymbolSize(50);
+            }
+            node.setName(start.getId().toString());
+            node.setValue(10);
+            node.setLabel(start.getName());
+            nodes.add(node);
+
             if(start.getFriends() != null){
                 for (People end : start.getFriends()){
-                    nodes.add(end);
-
                     Link link = new Link();
-                    link.setStartNode(start.getName());
-                    link.setEndNode(end.getName());
+                    link.setSource(start.getId().toString());
+                    link.setTarget(end.getId().toString());
+                    link.setValue(10);
+                    link.setLabel("is_friend_of");
                     links.add(link);
                 }
             }
         }
         System.out.println(nodes.size()+" : "+links.size());
+        resultData.put("nodelist",nodes);
+        resultData.put("linklist",links);
+
+        return resultData;
     }
 
 

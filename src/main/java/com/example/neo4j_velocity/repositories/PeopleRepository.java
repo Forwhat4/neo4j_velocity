@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface PeopleRepository extends GraphRepository<People> {
 
-    @Query("match r=(c:People{name:{name}})-[*1..3]->(p) return r,c,p")
+    @Query("match r=(c:People{name:{name}})-[*1..2]->(p) return r,c,p")
     List<People> findFriendsByName(@Param("name") String name);
 }
 

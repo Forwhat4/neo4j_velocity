@@ -11,8 +11,8 @@ $(function () {
     //准备好数据
     //以下为节点数据，每一个{}里面为一个节点，category（该节点类别），name（关系连接的关键字，可以理解为键值中的键，可为数字）
     //value(节点的值，可以设置节点半径与该值的关系)，label（该字段是我用来显示该节点标签的，可以改名），大家也可以自己设置其他字段
-    var graph = {};//数据
-    graph.nodes = [
+   var graph = {};//数据
+     graph.nodes = [
         {category:0,name: 1, value :5,label: '乔布斯'},
         {category:1, name: 2,value : 2,label: '丽萨-乔布斯'},
         {category:1, name: 3,value : 3,label: '保罗-乔布斯'},
@@ -58,7 +58,7 @@ $(function () {
     option = {
         title: {
             text: '人际关系网络图',//标题
-            subtext: '人物关系：乔布斯',//标题副标题
+            //subtext: '人物关系：乔布斯',//标题副标题
             top: 'top',//相对在y轴上的位置
             left: 'center'//相对在x轴上的位置
         },
@@ -108,7 +108,14 @@ $(function () {
                 label: {//图形上的文本标签，可用于说明图形的一些数据信息
                     normal: {
                         show : true,//显示
-                        position: 'left',//相对于节点标签的位置
+                        position: 'inside',//相对于节点标签的位置
+                        textStyle : { //标签的字体样式
+                            color : '#cde6c7', //字体颜色
+                            fontStyle : 'normal',//文字字体的风格 'normal'标准 'italic'斜体 'oblique' 倾斜
+                            fontWeight : 'bolder',//'normal'标准'bold'粗的'bolder'更粗的'lighter'更细的或100 | 200 | 300 | 400...
+                            fontFamily : 'sans-serif', //文字的字体系列
+                            fontSize : 12, //字体大小
+                        },
                         //回调函数，你期望节点标签上显示什么
                         formatter: function(params){
                             return params.data.label;
@@ -118,14 +125,14 @@ $(function () {
                 //节点的style
                 itemStyle:{
                     normal:{
-                        opacity:0.8,//设置透明度为0.8，为0时不绘制
+                        opacity:1,//设置透明度为0.8，为0时不绘制
                     },
                 },
                 // 关系边的公用线条样式
                 lineStyle: {
                     normal: {
                         show : true,
-                        color: 'target',//决定边的颜色是与起点相同还是与终点相同
+                        color: 'source',//决定边的颜色是与起点相同还是与终点相同
                         curveness: 0.3//边的曲度，支持从 0 到 1 的值，值越大曲度越大。
                     }
                 },
@@ -136,29 +143,35 @@ $(function () {
             }
         ]
     };
-
+    console.info("init");
+    console.info(option.series[0]);
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(option);
 });
 
 
 function loadTopo(name) {
-    console.info("name : ",name);
+    myChart.clear();
     $.ajax({
         type : "POST",
-        url : "/rel.json",
+        url : "/rel",
         dataType : "json",
         data : {
-            "name" : name
+            "name" : name,
         },
         async : false,
         success : function (data) {
-            console.info(data);
+            //console.info(data);
+            option.series[0].data=data.nodelist;
+            option.series[0].links=data.linklist;
+            option.series[0].categories=[{name:'朋友'},{name:'核心'}];
+            console.info("callback");
+            console.info(option.series[0]);
+            myChart.setOption(option);
         }
     });
 }
 
 $("#btn").click(function () {
-    console.info("click");
    loadTopo($("#name").val());
 });

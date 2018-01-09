@@ -4,24 +4,44 @@ import java.util.Objects;
 
 public class Link{
 
-    private String startNode;
+    private String source;
 
-    private String endNode;
+    private String target;
 
-    public String getStartNode() {
-        return startNode;
+    private Integer value;
+
+    private String label;
+
+    public String getSource() {
+        return source;
     }
 
-    public void setStartNode(String startNode) {
-        this.startNode = startNode;
+    public void setSource(String source) {
+        this.source = source;
     }
 
-    public String getEndNode() {
-        return endNode;
+    public String getTarget() {
+        return target;
     }
 
-    public void setEndNode(String endNode) {
-        this.endNode = endNode;
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
+    public Integer getValue() {
+        return value;
+    }
+
+    public void setValue(Integer value) {
+        this.value = value;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     @Override
@@ -29,13 +49,13 @@ public class Link{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Link link = (Link) o;
-        return Objects.equals(startNode, link.startNode) &&
-                Objects.equals(endNode, link.endNode);
+        return Objects.equals(source, link.source) &&
+                Objects.equals(target, link.target);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(startNode, endNode);
+        return Objects.hash(source, target);
     }
 }
