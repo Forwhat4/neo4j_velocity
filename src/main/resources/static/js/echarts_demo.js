@@ -122,6 +122,12 @@ $(function () {
                         },
                     }
                 },
+                edgeLabel:{
+                    normal:{
+                        show : true,
+                        position : 'middle'
+                    }
+                },
                 //节点的style
                 itemStyle:{
                     normal:{
@@ -133,18 +139,22 @@ $(function () {
                     normal: {
                         show : true,
                         color: 'source',//决定边的颜色是与起点相同还是与终点相同
-                        curveness: 0.3//边的曲度，支持从 0 到 1 的值，值越大曲度越大。
+                        curveness: 0.2//边的曲度，支持从 0 到 1 的值，值越大曲度越大。
                     }
                 },
+                edgeSymbol: ['none','arrow'],
                 force: {
                     edgeLength: [100,200],//线的长度，这个距离也会受 repulsion，支持设置成数组表达边长的范围
-                    repulsion: 500//节点之间的斥力因子。值越大则斥力越大
+                    repulsion: 500,//节点之间的斥力因子。值越大则斥力越大
+                    gravity:0.1 //节点受到的向中心的引力因子。该值越大节点越往中心点靠拢。
                 }
             }
-        ]
+        ],
+
     };
-    console.info("init");
-    console.info(option.series[0]);
+    /*myChart.on(ecConfig.EVENT,function () {
+
+    });*/
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(option);
 });

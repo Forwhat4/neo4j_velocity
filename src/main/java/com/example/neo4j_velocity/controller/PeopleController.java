@@ -19,11 +19,15 @@ public class PeopleController {
     @Autowired
     private PeopleService peopleService;
 
-    @RequestMapping("/index")
-    public String goToIndexPage(){
-        return "templates/index";
+    @RequestMapping("/echarts")
+    public String goToEChartsPage(){
+        return "templates/echarts";
     }
 
+    @RequestMapping("/d3js")
+    public String goToD3jsPage(){
+        return "templates/d3js";
+    }
 
     @RequestMapping(value = "/rel",method = RequestMethod.POST)
     public @ResponseBody Map<String ,Object> getRelationship(@RequestParam("name") String name){
